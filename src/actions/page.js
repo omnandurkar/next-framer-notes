@@ -43,3 +43,50 @@ export const FetchNoteAction = async () => {
         throw new Error("Failed to fetch notes");
     }
 };
+
+
+
+export const DeleteNoteAction = async (id) => {
+    await connectDB();
+
+    try {
+        const deletedNote = await Notes.findByIdAndDelete(id);
+        if (!deletedNote) {
+            throw new Error("Note not found");
+        }
+        return deletedNote.toObject(); // Convert the deleted note to a plain object
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to delete note");
+    }
+};
+
+
+export const EditNoteAction = async (id, formData) => {
+    await connectDB();
+
+    const title = formData.get("title");
+    const desc = formData.get("desc");
+    const tag = {
+        isOpen: formData.get("isOpen") === "true",
+        tagTitle: formData.get("tagTitle"),
+        tagColor: formData.get("tagColor"),
+    };
+
+    try {
+        const updatedNote = await Notes.findByIdAndUpdate(
+            id,
+            { title, desc, tag },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedNote) {
+            throw new Error("Note not found");
+        }
+
+        return updatedNote.toObject(); // Convert the updated note to a plain object
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to edit note");
+    }
+};
