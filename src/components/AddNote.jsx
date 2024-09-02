@@ -1,9 +1,8 @@
-"use client";
+'use client'
 
 import { AddNoteAction } from "@/actions/page";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-
 import {
     Dialog,
     DialogContent,
@@ -11,15 +10,13 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const AddNote = () => {
+const AddNote = ({ onNoteAdded }) => {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [tagTitle, setTagTitle] = useState("");
@@ -38,6 +35,7 @@ const AddNote = () => {
 
         try {
             await AddNoteAction(formData);
+            onNoteAdded(); // Notify the parent component that a note has been added
 
             // Optionally reset the form
             setTitle("");
@@ -100,36 +98,47 @@ const AddNote = () => {
                                 />
                                 <Label htmlFor="isOpen">Open Tag</Label>
                             </div>
-                            <div className="grid grid-cols-2 gap-5">
-                                <div className="items-center gap-4">
-                                    <Label htmlFor="tagTitle" className="text-right">
-                                        Tag Title
-                                    </Label>
-                                    <Input
-                                        id="tagTitle"
-                                        value={tagTitle}
-                                        onChange={(e) => setTagTitle(e.target.value)}
-                                        className="col-span-3"
-                                        placeholder="Tag Title"
-                                    />
-                                </div>
-                                <div className="items-center gap-4">
-                                    <Label htmlFor="tagColor" className="text-right">
-                                        Tag Color
-                                    </Label>
-                                    <Input
-                                        id="tagColor"
-                                        value={tagColor}
-                                        onChange={(e) => setTagColor(e.target.value)}
-                                        className="col-span-3"
-                                        placeholder="Tag Color"
-                                    />
-                                </div>
-                            </div>
 
+                            {isOpen && (
+                                <div className="grid grid-cols-2 gap-5">
+                                    <div className="items-center gap-4">
+                                        <Label htmlFor="tagTitle" className="text-right">
+                                            Tag Title
+                                        </Label>
+                                        <Input
+                                            id="tagTitle"
+                                            value={tagTitle}
+                                            onChange={(e) => setTagTitle(e.target.value)}
+                                            className="col-span-3"
+                                            placeholder="Tag Title"
+                                        />
+                                    </div>
+                                    <div className="items-center gap-4">
+                                        <Label htmlFor="tagColor" className="text-right">
+                                            Tag Color
+                                        </Label>
+                                        <select
+                                            id="tagColor"
+                                            value={tagColor}
+                                            onChange={(e) => setTagColor(e.target.value)}
+                                            className="col-span-3 border rounded-md p-2"
+                                        >
+                                            <option value="" disabled>
+                                                Select Tag Color
+                                            </option>
+                                            <option value="green">Green</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="yellow">Yellow</option>
+                                            <option value="red">Red</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <DialogFooter>
-                            <Button onClick={handleSubmit} type="submit">Save Note</Button>
+                            <Button onClick={handleSubmit} type="submit">
+                                Save Note
+                            </Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>

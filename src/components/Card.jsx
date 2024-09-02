@@ -71,9 +71,21 @@ const Card = ({ data, reference, onDelete, onUpdate }) => {
                     </div>
                     {
                         data.tag.isOpen && (
-                            <div className={`tag flex justify-center items-center w-full py-4 ${"bg-" + data.tag.tagColor + "-600"} `}>
-                                <h2 className='font-semibold text-sm'>{data.tag.tagTitle}</h2>
+                            <div
+                                className={`tag flex justify-center items-center w-full py-4 ${data.tag.tagColor === "green"
+                                    ? "bg-green-600"
+                                    : data.tag.tagColor === "blue"
+                                        ? "bg-blue-600"
+                                        : data.tag.tagColor === "yellow"
+                                            ? "bg-yellow-600"
+                                            : data.tag.tagColor === "red"
+                                                ? "bg-red-600"
+                                                : "bg-purple-600"
+                                    }`}
+                            >
+                                <h2 className="font-semibold text-sm">{data.tag.tagTitle}</h2>
                             </div>
+
                         )
                     }
                 </div>

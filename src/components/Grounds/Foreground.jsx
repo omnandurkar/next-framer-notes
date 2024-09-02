@@ -52,7 +52,7 @@ const Foreground = () => {
                         :
                         <div className='flex gap-10 justify-center md:justify-normal flex-wrap'>
                             {
-                                notes.map((note) => (
+                                notes && notes.length > 0 ? notes.map((note) => (
                                     <Card
                                         key={note._id}
                                         data={note}
@@ -60,14 +60,18 @@ const Foreground = () => {
                                         onDelete={handleDeleteNote}
                                         onUpdate={handleUpdateNotes} // Add onUpdate handler
                                     />
-                                ))
+                                )) : <div className='relative'> <div className='text-center text-lg font-bold fixed top-52 left-1/2 -translate-x-[50%] text-neutral-100'>No notes found</div>
+                                    <div className=' fixed top-64 left-1/2 -translate-x-[50%] text-neutral-100'><AddNote onNoteAdded={handleUpdateNotes} /> </div>
+                                </div>
                             }
                         </div>
                 }
             </div>
 
             <div className="absolute top-5 right-5">
-                <AddNote />
+                {
+                    notes && notes.length > 0 && <AddNote onNoteAdded={handleUpdateNotes} />
+                }
             </div>
         </div>
     )
