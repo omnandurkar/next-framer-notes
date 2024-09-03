@@ -7,7 +7,7 @@ import { FaRegFileAlt } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import { LuDownload } from 'react-icons/lu';
 import { motion } from 'framer-motion';
-import { CircleX, Edit } from 'lucide-react';
+import { CircleX, Copy, Edit } from 'lucide-react';
 import { DeleteNoteAction } from '@/actions/page';
 
 
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from './ui/button';
 import EditNoteDialog from './EditNoteDialoge';
+import { toast } from 'sonner';
 
 const Card = ({ data, reference, onDelete, onUpdate }) => {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
@@ -39,6 +40,11 @@ const Card = ({ data, reference, onDelete, onUpdate }) => {
         console.log('download');
     };
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(data.link);
+        toast.success('Copied to clipboard');
+    }
+
     return (
         <>
             <motion.div
@@ -55,14 +61,21 @@ const Card = ({ data, reference, onDelete, onUpdate }) => {
                 </div>
                 <p className='text-md capitalize leading-tight mt-5 font-bold'>{data.title}</p>
                 <div className='overflow-y-auto'>
-                    <p className='text-sm leading-tight mt-5 font-semibold'>{data.desc}</p>
+                    <p onClick={handleCopy} className='text-sm leading-tight mt-5 font-semibold'>{data.desc}</p>
                 </div>
                 <div className='footer absolute bottom-0 w-full left-0'>
-                    <div className='flex justify-between px-8 py-3 items-center mb-5'>
-                        <h5>{data.filesize}</h5>
+                    <div className='flex justify-between space-x-2 px-8 py-3 items-center mb-5'>
+                        {/* <h5>{data.filesize}</h5> */}
+
                         <span >
-                            <Edit className='cursor-pointer active:scale-90 transition-all' onClick={() => setIsEditDialogOpen(true)} />
+                            <Edit className='cursor-pointer  active:scale-90 transition-all' onClick={() => setIsEditDialogOpen(true)} />
                         </span>
+
+                        {
+                            data.link && <Copy className='cursor-pointer  active:scale-90 transition-all' onClick={handleCopy} />
+                        }
+
+
                         {/* <span className='w-7 h-7 bg-zinc-600 rounded-full flex items-center justify-center'>
                             {
                                 data.close ? <IoClose /> : <LuDownload onClick={handleDownload} />

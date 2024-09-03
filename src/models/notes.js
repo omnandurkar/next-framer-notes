@@ -8,6 +8,7 @@ const notesSchema = new mongoose.Schema({
         tagTitle: String,
         tagColor: String,
     },
+    link: { type: String },
 });
 
 const Notes = mongoose.models.Notes || mongoose.model('Notes', notesSchema);

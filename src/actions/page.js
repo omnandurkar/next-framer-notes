@@ -14,10 +14,12 @@ export const AddNoteAction = async (formData) => {
         isOpen: formData.get("isOpen") === "true",
         tagTitle: formData.get("tagTitle"),
         tagColor: formData.get("tagColor"),
+
     };
+    const link = formData.get("link");
 
     try {
-        const newNote = new Notes({ title, desc, tag });
+        const newNote = new Notes({ title, desc, tag, link });
         await newNote.save();
 
         return newNote.toObject(); // Convert the Mongoose document to a plain object
@@ -72,11 +74,12 @@ export const EditNoteAction = async (id, formData) => {
         tagTitle: formData.get("tagTitle"),
         tagColor: formData.get("tagColor"),
     };
+    const link = formData.get("link");
 
     try {
         const updatedNote = await Notes.findByIdAndUpdate(
             id,
-            { title, desc, tag },
+            { title, desc, tag, link },
             { new: true } // Return the updated document
         );
 

@@ -14,6 +14,7 @@ import { Label } from './ui/label';
 const EditNoteDialog = ({ open, onClose, noteData, onUpdate }) => {
     const [title, setTitle] = useState(noteData.title);
     const [desc, setDesc] = useState(noteData.desc);
+    const [link, setLink] = useState(noteData.link);
     const [tagTitle, setTagTitle] = useState(noteData.tag.tagTitle);
     const [tagColor, setTagColor] = useState(noteData.tag.tagColor);
     const [isTagOpen, setIsTagOpen] = useState(noteData.tag.isOpen);
@@ -23,6 +24,7 @@ const EditNoteDialog = ({ open, onClose, noteData, onUpdate }) => {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("desc", desc);
+        formData.append("link", link);
         formData.append("isOpen", isTagOpen.toString());
         formData.append("tagTitle", tagTitle);
         formData.append("tagColor", tagColor);
@@ -74,6 +76,18 @@ const EditNoteDialog = ({ open, onClose, noteData, onUpdate }) => {
                                 required
                             />
                         </div>
+                        <div className="items-center gap-4">
+                            <Label htmlFor="link" className="text-right">
+                                Link
+                            </Label>
+                            <Input
+                                id="link"
+                                value={link}
+                                onChange={(e) => setLink(e.target.value)}
+                                className="col-span-3"
+                                placeholder="Note Link"
+                            />
+                        </div>
                         <div className="ms-1 flex items-center gap-2">
                             <Checkbox
                                 id="isOpen"
@@ -95,7 +109,7 @@ const EditNoteDialog = ({ open, onClose, noteData, onUpdate }) => {
                                     placeholder="Tag Title"
                                 />
                             </div>
-                            <div className="items-center gap-4">
+                            {/* <div className="items-center gap-4">
                                 <Label htmlFor="tagColor" className="text-right">
                                     Tag Color
                                 </Label>
@@ -106,6 +120,26 @@ const EditNoteDialog = ({ open, onClose, noteData, onUpdate }) => {
                                     className="col-span-3"
                                     placeholder="Tag Color"
                                 />
+                            </div> */}
+
+                            <div className="items-center gap-4">
+                                <Label htmlFor="tagColor" className="text-right">
+                                    Tag Color
+                                </Label>
+                                <select
+                                    id="tagColor"
+                                    value={tagColor}
+                                    onChange={(e) => setTagColor(e.target.value)}
+                                    className="col-span-3 border rounded-md p-2"
+                                >
+                                    <option value="" disabled>
+                                        Select Tag Color
+                                    </option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="red">Red</option>
+                                </select>
                             </div>
                         </div>
                     </div>

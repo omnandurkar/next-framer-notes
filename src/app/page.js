@@ -1,4 +1,5 @@
 // import Image from "next/image";
+import { Toaster } from "@/components/ui/sonner"
 
 import AddNote from "@/components/AddNote";
 import Background from "@/components/Grounds/Background";
@@ -11,9 +12,10 @@ export default function Home() {
       <div className='relative w-full h-screen bg-zinc-800'>
         <Background />
         <Foreground />
+        <Toaster />
 
-{/* <AddNote/> */}
-{/* <NotesList/> */}
+        {/* <AddNote/> */}
+        {/* <NotesList/> */}
 
       </div>
 

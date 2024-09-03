@@ -15,12 +15,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { set } from "mongoose";
 
 const AddNote = ({ onNoteAdded }) => {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [tagTitle, setTagTitle] = useState("");
     const [tagColor, setTagColor] = useState("");
+    const [link, setLink] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,6 +34,9 @@ const AddNote = ({ onNoteAdded }) => {
         formData.append("isOpen", isOpen.toString());
         formData.append("tagTitle", tagTitle);
         formData.append("tagColor", tagColor);
+        formData.append("link", link);
+
+        console.log("Form Data:", formData);
 
         try {
             await AddNoteAction(formData);
@@ -42,6 +47,7 @@ const AddNote = ({ onNoteAdded }) => {
             setDesc("");
             setTagTitle("");
             setTagColor("");
+            setLink("");
             setIsOpen(false);
             setIsModalOpen(false);
         } catch (error) {
@@ -65,7 +71,7 @@ const AddNote = ({ onNoteAdded }) => {
                         <div className="grid gap-4 py-4">
                             <div className="items-center gap-4">
                                 <Label htmlFor="title" className="text-right">
-                                    Title
+                                    Title<span className="text-red-500" >*</span>
                                 </Label>
                                 <Input
                                     id="title"
@@ -78,7 +84,7 @@ const AddNote = ({ onNoteAdded }) => {
                             </div>
                             <div className="items-center gap-4">
                                 <Label htmlFor="desc" className="text-right">
-                                    Description
+                                    Description<span className="text-red-500" >*</span>
                                 </Label>
                                 <Textarea
                                     id="desc"
@@ -89,6 +95,19 @@ const AddNote = ({ onNoteAdded }) => {
                                     required
                                 />
                             </div>
+                            <div className="items-center gap-4">
+                                <Label htmlFor="link" className="text-right">
+                                    Link
+                                </Label>
+                                <Input
+                                    id="link"
+                                    value={link}
+                                    onChange={(e) => setLink(e.target.value)}
+                                    className="col-span-3"
+                                    placeholder="Note Link"
+                                />
+                            </div>
+
                             <div className="ms-1 flex items-center gap-2">
                                 <Checkbox
                                     id="isOpen"
